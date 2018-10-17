@@ -26,6 +26,7 @@ class Usuario {
         username blank: false, unique: true
         email(email: true, unique: true, blank: false)
         movil blank: false, unique: true
+        telefono blank: true
     }
 
     static mapping = {

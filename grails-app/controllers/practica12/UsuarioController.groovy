@@ -9,9 +9,8 @@ class UsuarioController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond usuarioService.list(params), model:[usuarioCount: usuarioService.count()]
+    def index() {
+
     }
 
     def show(Long id) {
@@ -19,29 +18,25 @@ class UsuarioController {
     }
 
     def create() {
-        respond new Usuario(params)
+        def categorias = Categoria.findAll()
+        println categorias.size()
+        render(view: "create", model: [categorias: categorias])
     }
 
-    def save(Usuario usuario) {
-        if (usuario == null) {
-            notFound()
-            return
-        }
+    def save() {
 
         try {
-            usuarioService.save(usuario)
+//            usuarioService.save(usuario)
+            def usuario = new Usuario(params)
+
+            usuario.save(flush: true, failOnError: true)
+
         } catch (ValidationException e) {
-            respond usuario.errors, view:'create'
-            return
+            println e
         }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuario.id])
-                redirect usuario
-            }
-            '*' { respond usuario, [status: CREATED] }
-        }
+        redirect(uri: '/')
+
     }
 
     def edit(Long id) {
@@ -57,7 +52,7 @@ class UsuarioController {
         try {
             usuarioService.save(usuario)
         } catch (ValidationException e) {
-            respond usuario.errors, view:'edit'
+            respond usuario.errors, view: 'edit'
             return
         }
 
@@ -66,7 +61,7 @@ class UsuarioController {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuario.id])
                 redirect usuario
             }
-            '*'{ respond usuario, [status: OK] }
+            '*' { respond usuario, [status: OK] }
         }
     }
 
@@ -81,9 +76,9 @@ class UsuarioController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'usuario.label', default: 'Usuario'), id])
-                redirect action:"index", method:"GET"
+                redirect action: "index", method: "GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -93,7 +88,7 @@ class UsuarioController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'usuario.label', default: 'Usuario'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

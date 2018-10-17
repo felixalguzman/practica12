@@ -19,29 +19,23 @@ class CategoriaController {
     }
 
     def create() {
-        respond new Categoria(params)
+
     }
 
-    def save(Categoria categoria) {
-        if (categoria == null) {
-            notFound()
-            return
-        }
+    def save() {
 
         try {
-            categoriaService.save(categoria)
+
+            def categoria = new Categoria(params)
+            categoria.save(flush:true, failOnError:true)
+
         } catch (ValidationException e) {
-            respond categoria.errors, view:'create'
-            return
+          println e
         }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'categoria.label', default: 'Categoria'), categoria.id])
-                redirect categoria
-            }
-            '*' { respond categoria, [status: CREATED] }
-        }
+        redirect(uri: '/')
+
+
     }
 
     def edit(Long id) {
