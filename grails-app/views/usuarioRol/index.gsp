@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'usuarioRol.label', default: 'UsuarioRol')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <a href="#list-usuarioRol" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div class="nav" role="navigation">
-            <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-            </ul>
-        </div>
-        <div id="list-usuarioRol" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <f:table collection="${usuarioRolList}" />
+<head>
+    <meta name="layout" content="main"/>
 
-            <div class="pagination">
-                <g:paginate total="${usuarioRolCount ?: 0}" />
+</head>
+
+<body>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <div class="card">
+        <h5 class="card-header">Responsive Table</h5>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Movil</th>
+                        <th scope="col">Puesto</th>
+                        <th scope="col">Categorias</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <g:each in="${usuarios}" var="usuario">
+
+                        <td>${usuario.nombre} ${usuario.apellido}</td>
+                        <td>${usuario.usuario}</td>
+                        <td>${usuario.telefono}</td>
+                        <td>${usuario.movil}</td>
+                        <td>${usuario.puesto}</td>
+                        <td>
+
+                            <g:each in="${usuario.categoria}" var="categoria">
+                                <span class="badge badge-pill badge-info">${categoria.nombre}</span>
+                            </g:each>
+
+                        </td>
+
+                    </g:each>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>

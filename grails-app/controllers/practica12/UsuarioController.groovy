@@ -11,6 +11,8 @@ class UsuarioController {
 
     def index() {
 
+        [usuarios: Usuario.findAll()]
+
     }
 
     def show(Long id) {
@@ -35,7 +37,7 @@ class UsuarioController {
             println e
         }
 
-        redirect(uri: '/')
+        redirect(action: index())
 
     }
 

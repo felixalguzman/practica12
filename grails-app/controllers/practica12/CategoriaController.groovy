@@ -1,6 +1,9 @@
 package practica12
 
+import grails.converters.JSON
 import grails.validation.ValidationException
+import groovy.json.JsonBuilder
+
 import static org.springframework.http.HttpStatus.*
 
 class CategoriaController {
@@ -9,9 +12,8 @@ class CategoriaController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond categoriaService.list(params), model:[categoriaCount: categoriaService.count()]
+    def index() {
+       [categorias : Categoria.findAll()]
     }
 
     def show(Long id) {
@@ -38,30 +40,22 @@ class CategoriaController {
 
     }
 
-    def edit(Long id) {
-        respond categoriaService.get(id)
+    def editar(Long id) {
+        def categoria = categoriaService.get(id)
+
+        render categoria as JSON
     }
 
-    def update(Categoria categoria) {
-        if (categoria == null) {
-            notFound()
-            return
-        }
+    def update(Integer id, String nombre) {
 
-        try {
-            categoriaService.save(categoria)
-        } catch (ValidationException e) {
-            respond categoria.errors, view:'edit'
-            return
-        }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'categoria.label', default: 'Categoria'), categoria.id])
-                redirect categoria
-            }
-            '*'{ respond categoria, [status: OK] }
-        }
+        def categoria = Categoria.findById(id)
+
+        categoria.setNombre(nombre)
+        categoria.save(flush:true, failOnError:true)
+
+        redirect(uri: '/categoria/index')
+
     }
 
     def delete(Long id) {

@@ -1,28 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'usuario.label', default: 'Usuario')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <a href="#list-usuario" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div class="nav" role="navigation">
-            <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-            </ul>
-        </div>
-        <div id="list-usuario" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <f:table collection="${usuarioList}" />
+<head>
+    <meta name="layout" content="main"/>
 
-            <div class="pagination">
-                <g:paginate total="${usuarioCount ?: 0}" />
+</head>
+
+<body>
+
+<div class="dashboard-finance">
+    <div class="container-fluid dashboard-content">
+
+        <div class="row">
+
+            <div class="col-xl-12 col-xl-6 col-lg-6 col-md-12 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Lista de usuarios</h5>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Movil</th>
+                                    <th scope="col">Puesto</th>
+                                    <th scope="col">Categorias</th>
+                                    <th scope="col" style="text-align: center;">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <g:each in="${usuarios}" var="usuario">
+                                    <tr>
+                                        <td>${usuario.nombre} ${usuario.apellido}</td>
+                                        <td>${usuario.username}</td>
+                                        <td>${usuario.telefono}</td>
+                                        <td>${usuario.movil}</td>
+                                        <td>${usuario.puesto}</td>
+                                        <td>
+
+                                            <g:each in="${usuario.categoria}" var="categoria">
+                                                <span class="badge badge-pill badge-info">${categoria.nombre}</span>
+                                            </g:each>
+
+                                        </td>
+
+                                        <td align="center">
+                                            <button class="btn btn-rounded btn-danger"><i
+                                                    class="fa fa-minus-square"></i> Eliminar</button>
+                                            <button class="btn btn-rounded btn-primary"><i
+                                                    class="fa fa-pencil-alt"></i> Editar</button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </g:each>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>
