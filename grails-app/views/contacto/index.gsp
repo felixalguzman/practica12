@@ -14,7 +14,7 @@
 
             <div class="col-xl-12 col-xl-6 col-lg-6 col-md-12 col-md-6 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">Lista de usuarios</h5>
+                    <h5 class="card-header">Lista de contactos</h5>
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -22,11 +22,12 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Usuario</th>
+                                    %{--<th scope="col">Usuario</th>--}%
                                     <th scope="col">Telefono</th>
                                     <th scope="col">Movil</th>
                                     <th scope="col">Puesto</th>
                                     <th scope="col">Categorias</th>
+                                    <th scope="col">Correo</th>
                                     <th scope="col" style="text-align: center;">Acciones</th>
                                 </tr>
                                 </thead>
@@ -34,13 +35,14 @@
                                 <g:each in="${usuarios}" var="usuario">
                                     <tr>
                                         <td>${usuario.nombre} ${usuario.apellido}</td>
-                                        <td>${usuario.username}</td>
+                                        %{--<td>${contacto.username}</td>--}%
                                         <td>${usuario.telefono}</td>
                                         <td>${usuario.movil}</td>
                                         <td>${usuario.puesto}</td>
+                                        <td>${usuario.email}</td>
                                         <td>
 
-                                            <g:each in="${usuario.categoria}" var="categoria">
+                                            <g:each in="${usuario.categorias}" var="categoria">
                                                 <span class="badge badge-pill badge-info">${categoria.nombre}</span>
                                             </g:each>
 

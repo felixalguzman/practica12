@@ -2,9 +2,6 @@ package practica12
 
 import grails.converters.JSON
 import grails.validation.ValidationException
-import groovy.json.JsonBuilder
-
-import static org.springframework.http.HttpStatus.*
 
 class CategoriaController {
 
@@ -13,7 +10,7 @@ class CategoriaController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index() {
-       [categorias : Categoria.findAll()]
+        [categorias: Categoria.findAll()]
     }
 
     def show(Long id) {
@@ -29,10 +26,10 @@ class CategoriaController {
         try {
 
             def categoria = new Categoria(params)
-            categoria.save(flush:true, failOnError:true)
+            categoria.save(flush: true, failOnError: true)
 
         } catch (ValidationException e) {
-          println e
+            println e
         }
 
         redirect(uri: '/')
@@ -52,36 +49,33 @@ class CategoriaController {
         def categoria = Categoria.findById(id)
 
         categoria.setNombre(nombre)
-        categoria.save(flush:true, failOnError:true)
+        categoria.save(flush: true, failOnError: true)
 
         redirect(uri: '/categoria/index')
 
     }
 
     def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
+        println "id: " + id
+        def categoria = Categoria.findById(id)
+        println(""+categoria)
+        println "nombre " +categoria.getNombre()
+        //def u = Contacto.findAllByCategoriasInList([categoria])
+        //def u  = Contacto.where {categoria.id in [categoria.id]}
+        def u  = Contacto.where {categoria in [categoria]}
+//        def u = Contacto.findAll("from Contacto as u where u.categorias in (:categorias)", [categorias: [categoria]])
+
+        println u.size()
+        def usuarios = ((u) as List<Contacto>)
+
+        usuarios.each {
+            it.removeFromCategorias(categoria)
+            it.save(flush: true, failOnError: true)
         }
 
-        categoriaService.delete(id)
+        redirect(uri: '/categoria/index')
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'categoria.label', default: 'Categoria'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'categoria.label', default: 'Categoria'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }
+
 }

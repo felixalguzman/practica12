@@ -31,8 +31,8 @@
                                         <td>${categoria.nombre}</td>
 
                                         <td align="center">
-                                            %{--<button class="btn btn-rounded btn-danger"><i--}%
-                                            %{--class="fa fa-minus-square"></i> Eliminar</button>--}%
+                                            <button class="btn btn-rounded btn-danger" onclick="eliminar(${categoria.id})"><i
+                                            class="fa fa-minus-square"></i> Eliminar</button>
                                             <button class="btn btn-rounded btn-primary"
                                                     onclick="editar(${categoria.id})"><i
                                                     class="fa fa-pencil-alt"></i> Editar</button>
@@ -78,6 +78,16 @@
 </div>
 
 <script>
+
+    function eliminar(id) {
+
+
+        let request = new XMLHttpRequest();
+        request.open('DELETE', '/categoria/delete/?id='+id, true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.send();
+
+    }
 
     function editar(id) {
 

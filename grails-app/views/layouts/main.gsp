@@ -91,10 +91,10 @@
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/usuario/create"> Crear</a>
+                                        <a class="nav-link" href="/contacto/create"> Crear</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/usuario/index">Ver</a>
+                                        <a class="nav-link" href="/contacto/index">Ver</a>
                                     </li>
                                 </ul>
                             </div>

@@ -2,17 +2,17 @@ package practica12
 
 import grails.gorm.services.Service
 
-@Service(Usuario)
+@Service(Contacto)
 interface UsuarioService {
 
-    Usuario get(Serializable id)
+    Contacto get(Serializable id)
 
-    List<Usuario> list(Map args)
+    List<Contacto> list(Map args)
 
     Long count()
 
     void delete(Serializable id)
 
-    Usuario save(Usuario usuario)
+    Contacto save(Contacto usuario)
 
 }

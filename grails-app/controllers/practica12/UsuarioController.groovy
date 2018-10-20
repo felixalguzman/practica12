@@ -11,7 +11,7 @@ class UsuarioController {
 
     def index() {
 
-        [usuarios: Usuario.findAll()]
+
 
     }
 
@@ -20,24 +20,12 @@ class UsuarioController {
     }
 
     def create() {
-        def categorias = Categoria.findAll()
-        println categorias.size()
-        render(view: "create", model: [categorias: categorias])
+
     }
 
     def save() {
 
-        try {
-//            usuarioService.save(usuario)
-            def usuario = new Usuario(params)
 
-            usuario.save(flush: true, failOnError: true)
-
-        } catch (ValidationException e) {
-            println e
-        }
-
-        redirect(action: index())
 
     }
 
@@ -45,7 +33,7 @@ class UsuarioController {
         respond usuarioService.get(id)
     }
 
-    def update(Usuario usuario) {
+    def update(Contacto usuario) {
         if (usuario == null) {
             notFound()
             return
@@ -60,7 +48,7 @@ class UsuarioController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuario.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'contacto.label', default: 'Contacto'), usuario.id])
                 redirect usuario
             }
             '*' { respond usuario, [status: OK] }
@@ -77,7 +65,7 @@ class UsuarioController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'usuario.label', default: 'Usuario'), id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'contacto.label', default: 'Contacto'), id])
                 redirect action: "index", method: "GET"
             }
             '*' { render status: NO_CONTENT }
@@ -87,7 +75,7 @@ class UsuarioController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'usuario.label', default: 'Usuario'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'contacto.label', default: 'Contacto'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*' { render status: NOT_FOUND }

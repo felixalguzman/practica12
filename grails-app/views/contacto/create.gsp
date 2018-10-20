@@ -19,7 +19,7 @@
                 <div class="card">
                     <h5 class="card-header">Información básica</h5>
 
-                    <g:form action="save" controller="usuario" method="POST">
+                    <g:form action="save" controller="contacto" method="POST">
                         <div class="card-body">
 
                             <div class="form-group">
@@ -66,32 +66,32 @@
 
                         </div>
 
-                        <div class="card-body border-top">
-                            <h3>Información de usuario</h3>
+                        %{--<div class="card-body border-top">--}%
+                            %{--<h3>Información de usuario</h3>--}%
 
 
-                            <label for="usuario" class="col-form-label">Usuario</label>
+                            %{--<label for="usuario" class="col-form-label">Usuario</label>--}%
 
-                            <div class="form-group">
-                                <div class="input-group mb-3"><span class="input-group-prepend"><span
-                                        class="input-group-text">@</span></span>
-                                    <input type="text" id="usuario" placeholder="Nombre de usuario" name="username"
-                                           class="form-control" required>
-                                </div>
-                            </div>
+                            %{--<div class="form-group">--}%
+                                %{--<div class="input-group mb-3"><span class="input-group-prepend"><span--}%
+                                        %{--class="input-group-text">@</span></span>--}%
+                                    %{--<input type="text" id="usuario" placeholder="Nombre de usuario" name="username"--}%
+                                           %{--class="form-control" required>--}%
+                                %{--</div>--}%
+                            %{--</div>--}%
 
-                            <label for="password">Contraseña</label>
+                            %{--<label for="password">Contraseña</label>--}%
 
-                            <div class="form-group">
-                                <div class="input-group mb-3"><span class="input-group-prepend"><span
-                                        class="input-group-text"><i class="fa fa-key"></i></span></span>
-                                    <input type="password" id="password" placeholder="Contraseña" name="password"
-                                           class="form-control" required>
-                                </div>
-                            </div>
+                            %{--<div class="form-group">--}%
+                                %{--<div class="input-group mb-3"><span class="input-group-prepend"><span--}%
+                                        %{--class="input-group-text"><i class="fa fa-key"></i></span></span>--}%
+                                    %{--<input type="password" id="password" placeholder="Contraseña" name="password"--}%
+                                           %{--class="form-control" required>--}%
+                                %{--</div>--}%
+                            %{--</div>--}%
 
 
-                        </div>
+                        %{--</div>--}%
 
                         <div style="float: right;margin-bottom: 5px;margin-right: 15px">
                             <button type="reset" class="btn btn-brand">Cancelar</button>
