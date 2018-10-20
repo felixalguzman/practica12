@@ -61,8 +61,8 @@ class CategoriaController {
         println(""+categoria)
         println "nombre " +categoria.getNombre()
         //def u = Contacto.findAllByCategoriasInList([categoria])
-        //def u  = Contacto.where {categoria.id in [categoria.id]}
-        def u  = Contacto.where {categoria in [categoria]}
+        def u  = Contacto.where {categoria.id in [categoria.id]}
+//        def u  = Contacto.where {categorias in [categoria]}
 //        def u = Contacto.findAll("from Contacto as u where u.categorias in (:categorias)", [categorias: [categoria]])
 
         println u.size()
@@ -73,8 +73,9 @@ class CategoriaController {
             it.save(flush: true, failOnError: true)
         }
 
-        redirect(uri: '/categoria/index')
+       categoria.delete(flush: true, failOnError: true)
 
+        redirect action: 'index'
     }
 
 
