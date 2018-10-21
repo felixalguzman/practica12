@@ -28,6 +28,7 @@
                                     <th scope="col">Puesto</th>
                                     <th scope="col">Correo</th>
                                     <th scope="col">Categorias</th>
+                                    <th scope="col">Departamentos</th>
                                     <th scope="col" style="text-align: center;">Acciones</th>
                                 </tr>
                                 </thead>
@@ -44,6 +45,14 @@
 
                                             <g:each in="${contacto.categorias}" var="categoria">
                                                 <span class="badge badge-pill badge-info">${categoria.nombre}</span>
+                                            </g:each>
+
+                                        </td>
+
+                                        <td>
+
+                                            <g:each in="${contacto.departamentos}" var="departamento">
+                                                <span class="badge badge-pill badge-brand">${departamento.nombre}</span>
                                             </g:each>
 
                                         </td>

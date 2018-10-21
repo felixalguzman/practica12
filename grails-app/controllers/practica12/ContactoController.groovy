@@ -23,18 +23,27 @@ class ContactoController {
         render(view: "create", model: [categorias: categorias])
     }
 
-    def save(Contacto contacto) {
+    def save() {
         try {
 //            usuarioService.save(contacto)
-            def usuario = new Contacto(params)
+            def contacto = new Contacto(params)
             if (params.categoria != null) {
                 def categoria = Categoria.findById(params.categoria as Integer)
 
-                usuario.addToCategorias(categoria)
+                contacto.addToCategorias(categoria)
+            }
+
+            if (params.departamentos != null){
+//                for (Integer id in params.departamentos){
+//                    def departamento = Departamento.findById(id)
+//
+////                    contacto.addToDepartamentos(departamento)
+//                }
+                println "departamentos: " + params.departamentos as String
             }
 
 
-            usuario.save(flush: true, failOnError: true)
+            contacto.save(flush: true, failOnError: true)
 
         } catch (ValidationException e) {
             println e

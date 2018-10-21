@@ -3,6 +3,10 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Usuario nuevo</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 </head>
 
 <body>
@@ -64,6 +68,14 @@
 
                             </div>
 
+                            <div class="form-group">
+                                <label for="departamentos">Departamentos</label>
+                                <select name="departamentos" multiple="multiple" id="departamentos" style="width: 100%" >
+
+                                </select>
+
+                            </div>
+
                         </div>
 
                         %{--<div class="card-body border-top">--}%
@@ -111,6 +123,29 @@
     $(document).ready(function () {
 
         $(".telefono").inputmask({"mask": "(999) 999-9999"});
+
+        $('#departamentos').select2({
+            width: 'resolve',
+            placeholder: 'Departamentos',
+            allowClear: true,
+            // templateResult: format,
+            // selectionAdapter: 'SingleSelection',
+            // templateSelection: format,
+            ajax: {
+                url: "/departamento/todos",
+                processResults: function (data) {
+                    data = data.map(function (departamento) {
+                        return {
+                            id: departamento.id,
+                            text: departamento.nombre,
+                            // otherfield: item.otherfield
+                        };
+                    });
+                    return {results: data};
+                },
+            },
+        });
+
     });
 
 

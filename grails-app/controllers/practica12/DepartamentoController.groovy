@@ -23,6 +23,13 @@ class DepartamentoController {
         respond new Departamento(params)
     }
 
+    def todos(){
+
+        def departamentos = Departamento.findAll()
+
+        render departamentos as JSON
+    }
+
     def save() {
         try {
 
