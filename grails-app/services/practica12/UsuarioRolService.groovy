@@ -1,5 +1,6 @@
 package practica12
 
+import auth.UsuarioRol
 import grails.gorm.services.Service
 
 @Service(UsuarioRol)

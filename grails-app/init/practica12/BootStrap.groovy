@@ -1,5 +1,7 @@
 package practica12
 
+import auth.Usuario
+
 class BootStrap {
 
     def init = { servletContext ->
@@ -18,9 +20,15 @@ class BootStrap {
 
         if (Contacto.count() < 2){
 
-            def admin = new Contacto(nombre: "felix", apellido: "g", puesto: "dev", telefono: "654645", direccion: "sucasa", categorias: [Categoria.first()], email: "felix@gmail.com", movil: "80980890")
+            def contacto = new Contacto(nombre: "felix", apellido: "g", puesto: "dev", telefono: "654645", direccion: "sucasa", categorias: [Categoria.first()], email: "felix@gmail.com", movil: "80980890")
 
-            admin.save(flush:true, failOnError: true)
+            contacto.save(flush:true, failOnError: true)
+        }
+
+        if (Usuario.count() < 1){
+
+            def admin = new Usuario(username: "admin", password: "admin")
+            admin.save(flush: true, failOnError: true)
         }
 
 

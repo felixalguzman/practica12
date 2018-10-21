@@ -1,5 +1,6 @@
 package practica12
 
+import auth.UsuarioRol
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 

@@ -26,30 +26,30 @@
                                     <th scope="col">Telefono</th>
                                     <th scope="col">Movil</th>
                                     <th scope="col">Puesto</th>
-                                    <th scope="col">Categorias</th>
                                     <th scope="col">Correo</th>
+                                    <th scope="col">Categorias</th>
                                     <th scope="col" style="text-align: center;">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <g:each in="${usuarios}" var="usuario">
+                                <g:each in="${usuarios}" var="contacto">
                                     <tr>
-                                        <td>${usuario.nombre} ${usuario.apellido}</td>
+                                        <td>${contacto.nombre} ${contacto.apellido}</td>
                                         %{--<td>${contacto.username}</td>--}%
-                                        <td>${usuario.telefono}</td>
-                                        <td>${usuario.movil}</td>
-                                        <td>${usuario.puesto}</td>
-                                        <td>${usuario.email}</td>
+                                        <td>${contacto.telefono}</td>
+                                        <td>${contacto.movil}</td>
+                                        <td>${contacto.puesto}</td>
+                                        <td>${contacto.email}</td>
                                         <td>
 
-                                            <g:each in="${usuario.categorias}" var="categoria">
+                                            <g:each in="${contacto.categorias}" var="categoria">
                                                 <span class="badge badge-pill badge-info">${categoria.nombre}</span>
                                             </g:each>
 
                                         </td>
 
                                         <td align="center">
-                                            <button class="btn btn-rounded btn-danger"><i
+                                            <button class="btn btn-rounded btn-danger" onclick="eliminar(${contacto.id})"><i
                                                     class="fa fa-minus-square"></i> Eliminar</button>
                                             <button class="btn btn-rounded btn-primary"><i
                                                     class="fa fa-pencil-alt"></i> Editar</button>
@@ -68,5 +68,19 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function eliminar(id) {
+
+
+        let request = new XMLHttpRequest();
+        request.open('DELETE', '/contacto/delete/?id='+id, true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.send();
+
+    }
+
+</script>
 </body>
 </html>

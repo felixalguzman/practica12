@@ -27,6 +27,12 @@ class ContactoController {
         try {
 //            usuarioService.save(contacto)
             def usuario = new Contacto(params)
+            if (params.categoria != null) {
+                def categoria = Categoria.findById(params.categoria as Integer)
+
+                usuario.addToCategorias(categoria)
+            }
+
 
             usuario.save(flush: true, failOnError: true)
 
@@ -50,7 +56,7 @@ class ContactoController {
         try {
             contactoService.save(contacto)
         } catch (ValidationException e) {
-            respond contacto.errors, view:'edit'
+            respond contacto.errors, view: 'edit'
             return
         }
 
@@ -59,25 +65,16 @@ class ContactoController {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'contacto.label', default: 'Contacto'), contacto.id])
                 redirect contacto
             }
-            '*'{ respond contacto, [status: OK] }
+            '*' { respond contacto, [status: OK] }
         }
     }
 
     def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
+        def contacto = Contacto.findById(id)
 
-        contactoService.delete(id)
+        contacto.delete(flush: true, failOnError: true)
+        render(view: 'index')
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'contacto.label', default: 'Contacto'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
     }
 
     protected void notFound() {
@@ -86,7 +83,7 @@ class ContactoController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'contacto.label', default: 'Contacto'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }
