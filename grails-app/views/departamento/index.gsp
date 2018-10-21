@@ -1,28 +1,125 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'departamento.label', default: 'Departamento')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <a href="#list-departamento" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div class="nav" role="navigation">
-            <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-            </ul>
-        </div>
-        <div id="list-departamento" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <f:table collection="${departamentoList}" />
+<head>
+    <meta name="layout" content="main"/>
+    <title>Departamentos</title>
+</head>
 
-            <div class="pagination">
-                <g:paginate total="${departamentoCount ?: 0}" />
+<body>
+
+<div class="dashboard-finance">
+    <div class="container-fluid dashboard-content">
+
+        <div class="row">
+
+            <div class="col-xl-12 col-xl-6 col-lg-6 col-md-12 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Lista de departamentos</h5>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col" style="text-align: center;">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <g:each in="${departamentos}" var="departamento">
+                                    <tr>
+                                        <td>${departamento.nombre}</td>
+
+                                        <td align="center">
+                                            <button class="btn btn-rounded btn-danger" onclick="eliminar(${departamento.id})"><i
+                                                    class="fa fa-minus-square"></i> Eliminar</button>
+                                            <button class="btn btn-rounded btn-primary"
+                                                    onclick="editar(${departamento.id})"><i
+                                                    class="fa fa-pencil-alt"></i> Editar</button>
+
+                                        </td>
+                                    </tr>
+                                </g:each>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+
+<div class="modal" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar departamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <g:form action="update" controller="departamento"  method="PUT">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Nombre</label>
+                        <input id="nombre" type="text" class="form-control" name="nombre" required>
+                        <input hidden id="id" name="id">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </g:form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function eliminar(id) {
+
+
+        let request = new XMLHttpRequest();
+        request.open('DELETE', '/departamento/delete/?id='+id, true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.send();
+
+    }
+
+    function editar(id) {
+
+        let request = new XMLHttpRequest();
+        request.open('GET', '/departamento/editar/?id=' + id, true);
+
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 400) {
+                // Success!
+                let resp = JSON.parse(request.responseText);
+
+                // console.log(resp);
+                document.getElementById('id').value = resp.id;
+                document.getElementById('nombre').value = resp.nombre;
+
+                $('#modal').modal("toggle");
+
+
+            } else {
+                // We reached our target server, but it returned an error
+
+            }
+        };
+
+        request.onerror = function () {
+            // There was a connection error of some sort
+        };
+
+        request.send();
+
+    }
+</script>
+
+</body>
 </html>

@@ -1,5 +1,6 @@
 package practica12
 
+import grails.converters.JSON
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -9,9 +10,9 @@ class DepartamentoController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond departamentoService.list(params), model:[departamentoCount: departamentoService.count()]
+    def index() {
+
+       [departamentos: Departamento.findAll()]
     }
 
     def show(Long id) {
@@ -22,78 +23,60 @@ class DepartamentoController {
         respond new Departamento(params)
     }
 
-    def save(Departamento departamento) {
-        if (departamento == null) {
-            notFound()
-            return
-        }
-
+    def save() {
         try {
-            departamentoService.save(departamento)
+
+            def departamento = new Departamento(params)
+            departamento.save(flush: true, failOnError: true)
+
         } catch (ValidationException e) {
-            respond departamento.errors, view:'create'
-            return
+            println e
         }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamento.id])
-                redirect departamento
-            }
-            '*' { respond departamento, [status: CREATED] }
-        }
+        redirect(uri: '/')
+
+
     }
 
-    def edit(Long id) {
-        respond departamentoService.get(id)
+    def editar(Long id) {
+
+        def departamento = departamentoService.get(id)
+
+        render departamento as JSON
+
     }
 
-    def update(Departamento departamento) {
-        if (departamento == null) {
-            notFound()
-            return
-        }
+    def update(Integer id, String nombre) {
+        def departamento = Departamento.findById(id)
 
-        try {
-            departamentoService.save(departamento)
-        } catch (ValidationException e) {
-            respond departamento.errors, view:'edit'
-            return
-        }
+        departamento.setNombre(nombre)
+        departamento.save(flush: true, failOnError: true)
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamento.id])
-                redirect departamento
-            }
-            '*'{ respond departamento, [status: OK] }
-        }
+        redirect(uri: '/departamento/index')
     }
 
     def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
+        println "id: " + id
+        def departamento = Departamento.findById(id)
+        println(""+departamento)
+        println "nombre " +departamento.getNombre()
+        //def u = Contacto.findAllByCategoriasInList([categoria])
+        def u  = Contacto.where {departamento.id in [departamento.id]}
+//        def u  = Contacto.where {categorias in [categoria]}
+//        def u = Contacto.findAll("from Contacto as u where u.categorias in (:categorias)", [categorias: [categoria]])
+
+        println u.size()
+        def usuarios = ((u) as List<Contacto>)
+
+        usuarios.each {
+            it.removeFromDepartamentos(departamento)
+            it.save(flush: true, failOnError: true)
         }
 
-        departamentoService.delete(id)
+        departamento.delete(flush: true, failOnError: true)
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        redirect action: 'index'
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }
+
 }
