@@ -2,7 +2,6 @@ package practica12
 
 import grails.converters.JSON
 import grails.validation.ValidationException
-import static org.springframework.http.HttpStatus.*
 
 class DepartamentoController {
 

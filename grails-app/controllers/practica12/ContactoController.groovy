@@ -1,5 +1,6 @@
 package practica12
 
+import grails.converters.JSON
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -13,14 +14,44 @@ class ContactoController {
         [usuarios: Contacto.findAll()]
     }
 
-    def show(Long id) {
-        respond contactoService.get(id)
+    def show() {
+
     }
 
     def create() {
         def categorias = Categoria.findAll()
         println categorias.size()
         render(view: "create", model: [categorias: categorias])
+    }
+
+    def reportes() {
+
+        def contactosCategoriaCriteria = Contacto.createCriteria()
+        def contactosCategoria = contactosCategoriaCriteria.list {
+            categorias{
+                projections {
+
+                    groupProperty("nombre")
+                }
+                count()
+            }
+
+        }
+        def contactosDepartamentoCriteria = Contacto.createCriteria()
+        def contactosDepartamento = contactosDepartamentoCriteria.list {
+            departamentos{
+                projections {
+
+                    groupProperty("nombre")
+                }
+                count()
+            }
+        }
+        def res = [categorias: contactosCategoria, departamentos: contactosDepartamento]
+
+        render res as JSON
+
+
     }
 
     def save() {
@@ -33,7 +64,7 @@ class ContactoController {
                 contacto.addToCategorias(categoria)
             }
 
-            if (params.departamentos != null){
+            if (params.departamentos != null) {
 //                for (Integer id in params.departamentos){
 //                    def departamento = Departamento.findById(id)
 //
