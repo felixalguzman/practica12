@@ -14,22 +14,22 @@
 
             <div class="col-xl-12 col-xl-6 col-lg-6 col-md-12 col-md-6 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">Lista de contactos</h5>
+                    <h5 class="card-header"> <g:message code="lista.contactos"/> </h5>
 
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Nombre</th>
+                                    <th scope="col"> <g:message code="nombre"/> </th>
                                     %{--<th scope="col">Usuario</th>--}%
-                                    <th scope="col">Telefono</th>
-                                    <th scope="col">Movil</th>
-                                    <th scope="col">Puesto</th>
-                                    <th scope="col">Correo</th>
-                                    <th scope="col">Categorias</th>
-                                    <th scope="col">Departamentos</th>
-                                    <th scope="col" style="text-align: center;">Acciones</th>
+                                    <th scope="col"> <g:message code="telefono"/> </th>
+                                    <th scope="col"> <g:message code="movil"/> </th>
+                                    <th scope="col"> <g:message code="puesto"/> </th>
+                                    <th scope="col"> <g:message code="correo"/> </th>
+                                    <th scope="col"> <g:message code="categorias"/> </th>
+                                    <th scope="col"> <g:message code="departamentos"/> </th>
+                                    <th scope="col" style="text-align: center;"> <g:message code="acciones"/> </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -59,9 +59,9 @@
 
                                         <td align="center">
                                             <button class="btn btn-rounded btn-danger" onclick="eliminar(${contacto.id})"><i
-                                                    class="fa fa-minus-square"></i> Eliminar</button>
+                                                    class="fa fa-minus-square"></i> <g:message code="eliminar"/> </button>
                                             <button class="btn btn-rounded btn-primary"><i
-                                                    class="fa fa-pencil-alt"></i> Editar</button>
+                                                    class="fa fa-pencil-alt"></i> <g:message code="editar"/> </button>
 
                                         </td>
 

@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  align-items-stretch">
             <div class="card">
-                <h5 class="card-header">Contactos por categoria</h5>
+                <h5 class="card-header"> <g:message code="contactos.categoria"/> </h5>
 
                 <div class="card-body">
                     <div id="categorias" class="d-flex align-items-md-stretch" style="width:100%; height:200%;"></div>
@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  align-items-stretch">
             <div class="card">
-                <h5 class="card-header">Contactos por departamento</h5>
+                <h5 class="card-header"> <g:message code="contactos.departamento"/> </h5>
                 <div class="card-body">
                     <div id="departamentos" class="d-flex align-items-stretch" style="width:100%; height:200%;"></div>
                 </div>

@@ -2,5 +2,8 @@ package practica12
 
 class InicioController {
 
-    def index() { }
+    def index() {
+
+        [contactos: Contacto.count(), departamentos: Departamento.count(), categorias : Categoria.count()]
+    }
 }
