@@ -80,21 +80,21 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column">
                         <li class="nav-divider">
-                            Menu
+                            <g:message code="menu"/>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                data-target="#submenu-2" aria-controls="submenu-2"><i
-                                    class="fa fa-fw fa-user"></i> Contactos</a>
+                                    class="fa fa-fw fa-user"></i> <g:message code="contactos"/> </a>
 
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/contacto/create"> Crear</a>
+                                        <a class="nav-link" href="/contacto/create"> <g:message code="crear"/> </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/contacto/index">Ver</a>
+                                        <a class="nav-link" href="/contacto/index"> <g:message code="ver"/> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -102,11 +102,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                data-target="#submenu-3" aria-controls="submenu-3"><i
-                                    class="fas fa-fw fa-chart-pie"></i>Graficos</a>
+                                    class="fas fa-fw fa-chart-pie"></i> <g:message code="graficos"/> </a>
                             <div id="submenu-3" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/contacto/show">Ver</a>
+                                        <a class="nav-link" href="/contacto/show"><g:message code="ver"/></a>
                                     </li>
                                 </ul>
                             </div>
@@ -114,15 +114,15 @@
                         <li class="nav-item ">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                data-target="#submenu-4" aria-controls="submenu-4"><i
-                                    class="fab fa-fw fa-wpforms"></i>Categorías</a>
+                                    class="fab fa-fw fa-wpforms"></i> <g:message code="categorias"/> </a>
 
                             <div id="submenu-4" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/categoria/create">Crear</a>
+                                    <a class="nav-link" href="/categoria/create"><g:message code="crear"/></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/categoria/index">Ver</a>
+                                    <a class="nav-link" href="/categoria/index"><g:message code="ver"/></a>
                                 </li>
                             </ul>
                         </div>
@@ -131,15 +131,15 @@
                         <li class="nav-item ">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                data-target="#submenu-5" aria-controls="submenu-4"><i
-                                    class="fas fa-building"></i>Departamentos</a>
+                                    class="fas fa-building"></i> <g:message code="departamentos"/> </a>
 
                             <div id="submenu-5" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/departamento/create">Crear</a>
+                                        <a class="nav-link" href="/departamento/create"><g:message code="crear"/></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/departamento/index">Ver</a>
+                                        <a class="nav-link" href="/departamento/index"><g:message code="ver"/></a>
                                     </li>
                                 </ul>
                             </div>

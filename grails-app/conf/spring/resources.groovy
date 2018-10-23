@@ -1,6 +1,6 @@
 package spring
 
-import demo.UsuarioPasswordEncoderListener
+import auth.UsuarioPasswordEncoderListener
 
 // Place your Spring DSL code here
 beans = {
