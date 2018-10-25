@@ -1,9 +1,12 @@
 package practica12
 
+import auth.Usuario
 import auth.UsuarioRol
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
+@Secured(['permitAll'])
 class UsuarioRolController {
 
     def usuarioRolService
@@ -88,13 +91,17 @@ class UsuarioRolController {
         }
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'usuarioRol.label', default: 'UsuarioRol'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
+    @Secured(['permitAll'])
+    def login() {
+        respond view: '/login/auth'
+    }
+
+
+    def iniciarSesion(String username, String password) {
+        def user = Usuario.findByUsername(username)
+        if (!user) {
+
         }
+        redirect(uri: "/index")
     }
 }
