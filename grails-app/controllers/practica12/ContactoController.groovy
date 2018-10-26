@@ -1,8 +1,8 @@
 package practica12
 
+import auth.Usuario
 import grails.converters.JSON
 import grails.validation.ValidationException
-import static org.springframework.http.HttpStatus.*
 
 class ContactoController {
 
@@ -20,15 +20,16 @@ class ContactoController {
 
     def create() {
         def categorias = Categoria.findAll()
+        def usuario = (Usuario) getAuthenticatedUser()
         println categorias.size()
-        render(view: "create", model: [categorias: categorias])
+        render(view: "create", model: [categorias: categorias, usuario: usuario])
     }
 
     def reportes() {
 
         def contactosCategoriaCriteria = Contacto.createCriteria()
         def contactosCategoria = contactosCategoriaCriteria.list {
-            categorias{
+            categorias {
                 projections {
 
                     groupProperty("nombre")
@@ -39,7 +40,7 @@ class ContactoController {
         }
         def contactosDepartamentoCriteria = Contacto.createCriteria()
         def contactosDepartamento = contactosDepartamentoCriteria.list {
-            departamentos{
+            departamentos {
                 projections {
 
                     groupProperty("nombre")
@@ -55,10 +56,14 @@ class ContactoController {
     }
 
     def save() {
+
+        def existe = 1, errores = ""
+
+
         try {
-//            usuarioService.save(contacto)
+
             def contacto = new Contacto(params)
-            if (params.categoria != null) {
+            if (params.categoria != null && (params.categoria as String).isNumber()) {
                 def categoria = Categoria.findById(params.categoria as Integer)
 
                 contacto.addToCategorias(categoria)
@@ -77,37 +82,88 @@ class ContactoController {
             contacto.save(flush: true, failOnError: true)
 
         } catch (ValidationException e) {
-            println e
+            existe = -1
+            errores = e.getErrors().getAllErrors()
+
         }
 
+        def res = [valido: existe, errores: errores]
+        render res as JSON
+    }
+
+    def existe() {
+
+//        println params.error
+
+        def s = params.error as String
+
+        def arr = s.split(",")
+
+        def email = ""
+        def movil = ""
+        def entro = false
+
+        if (arr[0].startsWith("email")){
+            email = arr[0].trim()
+            entro = true
+        }
+        else if (arr.length > 1){
+            email = arr[1].trim()
+            entro = true
+        }
+
+        if (arr[0].startsWith("movil")){
+            movil = arr[0].trim()
+        }
+        else if (arr.length > 1){
+            movil = arr[1].trim()
+        }
+
+
+        def contacto = null
+
+        if (email != null && !email.equalsIgnoreCase("")) {
+
+//            println "email " + email.split(":")[1].trim()
+            contacto = Contacto.findByEmail(email.split(":")[1].trim())
+        } else if (movil != null && !movil.equalsIgnoreCase("")) {
+
+//            println "movil " + movil.split(":")[1].trim()
+            contacto = Contacto.findByMovil(movil.split(":")[1].trim())
+        }
+
+//        println "nombre: " + contacto.nombre
+
+        if (contacto != null){
+
+
+            Integer[] arreglo  = params.list('departamentos')
+            println "ids: " + params.departamentos as String
+            for (Integer id in arreglo) {
+                def departamento = Departamento.findById(id)
+
+//                println "departamento nombre: " + departamento.nombre
+//                d.add(departamento)
+//
+                contacto.addToDepartamentos(departamento)
+
+            }
+
+//            contacto.setDepartamentos(d)
+        }
+        else {
+            println "contacto nulo"
+        }
+
+        contacto.save(flush: true, failOnError: true)
         redirect(uri: '/contacto/index')
+
     }
 
     def edit(Long id) {
         respond contactoService.get(id)
     }
 
-    def update(Contacto contacto) {
-        if (contacto == null) {
-            notFound()
-            return
-        }
-
-        try {
-            contactoService.save(contacto)
-        } catch (ValidationException e) {
-            respond contacto.errors, view: 'edit'
-            return
-        }
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'contacto.label', default: 'Contacto'), contacto.id])
-                redirect contacto
-            }
-            '*' { respond contacto, [status: OK] }
-        }
-    }
 
     def delete(Long id) {
         def contacto = Contacto.findById(id)
@@ -117,13 +173,4 @@ class ContactoController {
 
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'contacto.label', default: 'Contacto'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
 }

@@ -1,5 +1,7 @@
 package practica12
 
+import auth.Usuario
+
 class Contacto {
 
     boolean enabled = true
@@ -15,6 +17,8 @@ class Contacto {
     Date dateCreated
     Date lastUpdated
 
+    Usuario usuario
+    Set departamentos = []
     static hasMany = [departamentos: Departamento, categorias: Categoria]
 
     static constraints = {

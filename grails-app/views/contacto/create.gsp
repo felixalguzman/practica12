@@ -23,7 +23,7 @@
                 <div class="card">
                     <h5 class="card-header"><g:message code="informacion"/></h5>
 
-                    <g:form action="save" controller="contacto" method="POST">
+                    <form id="form"  method="post">
                         <div class="card-body">
 
                             <div class="form-group">
@@ -83,6 +83,8 @@
 
                             </div>
 
+                            <input hidden name="usuario" value="${usuario.id}">
+
                         </div>
 
                     %{--<div class="card-body border-top">--}%
@@ -117,12 +119,47 @@
                             <button type="submit" class="btn btn-success">OK</button>
                             <br>
                         </div>
-                    </g:form>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> <g:message code="error"/> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <g:form controller="contacto" action="existe">
+                <div class="modal-body">
+                    <label id="errores"></label>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="departamentosR"><g:message code="departamento"/></label>
+                            <select name="departamentos" multiple="multiple" id="departamentosR" style="width: 100%">
+
+                            </select>
+
+                        </div>
+                        <input hidden type="text" id="error" name="error">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> <g:message code="cerrar"/> </button>
+                    <button type="submit" class="btn btn-primary"> <g:message code="guardar"/> </button>
+                </div>
+            </g:form>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
 <script>
@@ -153,7 +190,74 @@
             },
         });
 
+        $("#form").on("submit", function (e) {
+            // alert('entro');
+            e.preventDefault();
+            crear();
+        })
+
+
     });
+
+    function crear() {
+
+        $.ajax({
+            type: 'POST',
+            data: $('#form').serialize(),
+            url: "${g.createLink(controller:'contacto',action:'save')}",
+            success: function (res) {
+
+                // alert('se fue');
+                if (res.valido !== 1){
+                    alert('error');
+                    console.log(res.errores.map(a => a.arguments[0] + ": " + a.arguments[2]));
+                    mostrarErrores(res.errores.map(a => a.arguments[0] +": " + a.arguments[2]));
+
+                }
+                else {
+
+                    alert('guardado');
+                }
+            }
+
+
+        })
+    }
+
+    function mostrarErrores(errores) {
+
+        document.getElementById("errores").textContent = "Existe un contacto con los campos: " + errores;
+        document.getElementById("error").value = errores;
+
+
+        $('#departamentosR').select2({
+            width: 'resolve',
+            placeholder: '<g:message code="departamentos" /> ',
+            allowClear: true,
+            // templateResult: format,
+            // selectionAdapter: 'SingleSelection',
+            // templateSelection: format,
+            ajax: {
+                url: "/departamento/todos",
+                processResults: function (data) {
+                    data = data.map(function (departamento) {
+                        return {
+                            id: departamento.id,
+                            text: departamento.nombre,
+                            // otherfield: item.otherfield
+                        };
+                    });
+                    return {results: data};
+                },
+            },
+        });
+        console.log( 'data: ' +$('#departamentos').val());
+        $('#departamentosR').val([$('#departamentos').val()]);
+        $("#modal").modal("toggle");
+
+
+    }
+
 
 
 </script>

@@ -1,10 +1,13 @@
 package practica12
 
+import auth.Usuario
+
 class Departamento {
 
     String nombre
     Date dateCreated
     Date lastUpdated
+    Usuario usuario
 
     static constraints = {
 

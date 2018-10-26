@@ -1,5 +1,6 @@
 package practica12
 
+import auth.Usuario
 import grails.converters.JSON
 import grails.validation.ValidationException
 
@@ -30,9 +31,12 @@ class DepartamentoController {
     }
 
     def save() {
+
+        def usuario = (Usuario) getAuthenticatedUser()
         try {
 
             def departamento = new Departamento(params)
+            departamento.setUsuario(usuario)
             departamento.save(flush: true, failOnError: true)
 
         } catch (ValidationException e) {

@@ -91,17 +91,11 @@ class UsuarioRolController {
         }
     }
 
-    @Secured(['permitAll'])
-    def login() {
-        respond view: '/login/auth'
-    }
+//    @Secured(['permitAll'])
+//    def login() {
+//        respond view: '/login/auth'
+//    }
 
 
-    def iniciarSesion(String username, String password) {
-        def user = Usuario.findByUsername(username)
-        if (!user) {
 
-        }
-        redirect(uri: "/index")
-    }
 }

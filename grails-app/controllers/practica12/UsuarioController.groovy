@@ -1,5 +1,6 @@
 package practica12
 
+import auth.Usuario
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -55,30 +56,15 @@ class UsuarioController {
         }
     }
 
-    def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
+    def iniciarSesion(String username, String password) {
+        def user = Usuario.findByUsername(username)
+        if (!user) {
 
-        usuarioService.delete(id)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'contacto.label', default: 'Contacto'), id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
         }
+        redirect(uri: "/index")
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'contacto.label', default: 'Contacto'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
+
+
+
 }
